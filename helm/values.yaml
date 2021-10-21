@@ -1,0 +1,25 @@
+fullnameOverride:
+replicaCount: 1
+
+image:
+  image: projects.registry.vmware.com/cb_harbor_adapter/cb_harbor_adapter:1.0
+  imagePullPolicy: IfNotPresent
+
+cb_image_scanning:
+  api_id: "" 
+  org_key: ""
+  api_key: ""
+  url: ""
+  log_level: info
+
+resources: {}
+  #   cpu: 100m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
+
+
+service:
+  type: ClusterIP
+  port: 8080

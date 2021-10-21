@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "harbor-adapter.fullname" . }}
+  labels:
+    app: {{ include "harbor-adapter.fullname" . }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ include "harbor-adapter.fullname" . }}
+  template:
+    metadata:
+      labels:
+        app: {{ include "harbor-adapter.fullname" . }}
+    spec:
+      containers:
+      - name: harbor-adapter
+        image: {{ .Values.image.image }}
+        env:
+        - name: CB_API_ID
+          valueFrom:
+            secretKeyRef:
+              name: {{ include "harbor-adapter.fullname" . }}
+              key: api_id
+        - name: CB_ORG_KEY
+          valueFrom:
+            secretKeyRef:
+              name: {{ include "harbor-adapter.fullname" . }}
+              key: org_key
+        - name: CB_URL
+          valueFrom:
+            secretKeyRef:
+              name: {{ include "harbor-adapter.fullname" . }}
+              key: url
+        - name: CB_API_KEY
+          valueFrom:
+            secretKeyRef:
+              name: {{ include "harbor-adapter.fullname" . }}
+              key: api_key
+        - name: LOG_LEVEL
+          value: {{ .Values.cb_image_scanning.log_level | default "info" | quote }}
+        ports:
+        - containerPort: {{ .Values.service.port | default 8080 }}
+        securityContext:
+          privileged: true

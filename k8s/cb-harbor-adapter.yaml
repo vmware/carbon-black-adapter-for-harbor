@@ -1,0 +1,85 @@
+---
+# cb-harbor-adapter deployment 
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cb-harbor-adapter
+  labels:
+    app: cb-harbor-adapter
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: cb-harbor-adapter
+  template:
+    metadata:
+      labels:
+        app: cb-harbor-adapter
+    spec:
+      containers:
+      - name: cb-harbor-adapter
+        image: projects.registry.vmware.com/cb_harbor_adapter/cb_harbor_adapter:0.1
+        env:
+        - name: CB_API_ID
+          valueFrom:
+            secretKeyRef:
+              name: cb-harbor-adapter
+              key: api_id
+        - name: CB_ORG_KEY
+          valueFrom:
+            secretKeyRef:
+              name: cb-harbor-adapter
+              key: org_key
+        - name: CB_URL
+          valueFrom:
+            secretKeyRef:
+              name: cb-harbor-adapter
+              key: url
+        - name: CB_API_KEY
+          valueFrom:
+            secretKeyRef:
+              name: cb-harbor-adapter
+              key: api_key
+        - name: LOG_LEVEL
+          value: "info"
+        ports:
+        - containerPort: 8080
+        securityContext:
+          privileged: true
+
+---
+# cb-harbor-adapter secret 
+
+apiVersion: v1
+kind: Secret
+metadata:
+  name: cb-harbor-adapter
+  labels:
+    app: cb-harbor-adapter
+type: Opaque
+data:
+  api_id: # add your base64 encoded carbon black API ID here
+  org_key: # add your base64 encoded carbon black ORG KEY here
+  org_key: # add your base64 encoded carbon black URL here
+  org_key: # add your base64 encoded carbon black API KEY here
+
+
+---
+
+# cb-harbor-adapter service 
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: cb-harbor-adapter
+spec:
+  type: ClusterIP
+  selector:
+    app: cb-harbor-adapter
+  ports:
+    - name: api-server
+      protocol: TCP
+      port: 8080
+      targetPort: 8080
+      
