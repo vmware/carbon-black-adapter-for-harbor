@@ -59,10 +59,10 @@ metadata:
     app: cb-harbor-adapter
 type: Opaque
 data:
-  api_id: Q1NCUlUzVUdRNg==
-  org_key: TFhFVFhQNUxK
-  api_key: Tko1UldOSEo2QVQ0VVVZWkI1UlpFTElE
-  url: aHR0cHM6Ly9kZWZlbnNlLXRlc3QwMy5jYmR0ZXN0LmlvL2NvbnRhaW5lcnM=
+  api_id: ""
+  org_key: ""
+  api_key: ""
+  url: ""
 
 
 ---
