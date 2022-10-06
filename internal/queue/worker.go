@@ -9,8 +9,8 @@ import (
 	"fmt"
 
 	log "github.com/sirupsen/logrus"
-	"github.com/vmware/carbon-black-cloud-container-cli/pkg/scan"
 	"github.com/vmware/carbon-black-adapter-for-harbor/internal/config"
+	"github.com/vmware/carbon-black-cloud-container-cli/pkg/scan"
 )
 
 type Worker struct{}
@@ -35,9 +35,9 @@ func (w Worker) HandleEvents() {
 				continue
 			}
 
-			scanHandler := scan.NewScanHandler(config.SaasURL(), config.OrgKey(), config.APIID(), config.APIKey(), imageInfo.Bom)
+			scanHandler := scan.NewScanHandler(config.SaasURL(), config.OrgKey(), config.APIID(), config.APIKey(), imageInfo.Bom, nil)
 
-			if _, err := scanHandler.PutBomToAnalysisAPI(scan.Option{}); err != nil {
+			if _, err := scanHandler.PutBomAndLayersToAnalysisAPI(scan.Option{}); err != nil {
 				log.Errorf("Error putting BOM for analysis of image %v", imageInfo)
 				imageInfo.Status = BomUploadedUnSuccessfully
 				continue
@@ -56,7 +56,7 @@ func (w Worker) HandleEvents() {
 			continue
 		}
 
-		bomGenerated, err := registryHandler.Generate(imageInfo.DockerPullTag, scan.Option{
+		bomGenerated, err := registryHandler.GenerateSBOM(imageInfo.DockerPullTag, scan.Option{
 			FullTag:    imageInfo.FullTag,
 			Credential: fmt.Sprintf("%v:%v", imageInfo.UserName, imageInfo.Password),
 		})

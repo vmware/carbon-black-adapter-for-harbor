@@ -1,4 +1,4 @@
-FROM golang:1.16-buster as basebuild
+FROM golang:1.18-buster as basebuild
 WORKDIR /harbor-adapter
 COPY / /harbor-adapter
 RUN make build

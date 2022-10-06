@@ -2,7 +2,7 @@
  * Copyright 2021 VMware, Inc.
  * SPDX-License-Identifier: Apache-2.0
  */
- 
+
 package harbor
 
 import (
@@ -51,7 +51,7 @@ type Registry struct {
 	URL string `json:"url,omitempty"`
 	// An optional value of the HTTP Authorization header sent with each request to
 	// the Docker Registry v2 API. It's used to exchange Base64 encoded robot account credentials
-	// to a short lived JWT access token which allows the underlying scanner to pull the artifact
+	// to a short-lived JWT access token which allows the underlying scanner to pull the artifact
 	// from the Docker Registry.
 	Authorization string `json:"authorization,omitempty"`
 }
