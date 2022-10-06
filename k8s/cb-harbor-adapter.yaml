@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
       - name: cb-harbor-adapter
-        image: projects.registry.vmware.com/cb_harbor_adapter/cb_harbor_adapter:0.1
+        image: core.harbor.domain/library/adapter #projects.registry.vmware.com/cb_harbor_adapter/cb_harbor_adapter:0.1
         env:
         - name: CB_API_ID
           valueFrom:
@@ -59,10 +59,10 @@ metadata:
     app: cb-harbor-adapter
 type: Opaque
 data:
-  api_id: # add your base64 encoded carbon black API ID here
-  org_key: # add your base64 encoded carbon black ORG KEY here
-  org_key: # add your base64 encoded carbon black URL here
-  org_key: # add your base64 encoded carbon black API KEY here
+  api_id: Q1NCUlUzVUdRNg==
+  org_key: TFhFVFhQNUxK
+  api_key: Tko1UldOSEo2QVQ0VVVZWkI1UlpFTElE
+  url: aHR0cHM6Ly9kZWZlbnNlLXRlc3QwMy5jYmR0ZXN0LmlvL2NvbnRhaW5lcnM=
 
 
 ---

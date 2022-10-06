@@ -2,7 +2,7 @@
  * Copyright 2021 VMware, Inc.
  * SPDX-License-Identifier: Apache-2.0
  */
- 
+
 package main
 
 import (
@@ -31,7 +31,7 @@ func main() {
 }
 
 func register(router *gin.Engine) {
-	handler := scan.NewScanHandler(config.SaasURL(), config.OrgKey(), config.APIID(), config.APIKey(), nil)
+	handler := scan.NewScanHandler(config.SaasURL(), config.OrgKey(), config.APIID(), config.APIKey(), nil, nil)
 	adapter := imagescanning.NewAdapter(*handler)
 	group := v1.NewGroup(router, adapter)
 	group.Register()

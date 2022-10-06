@@ -2,7 +2,7 @@
  * Copyright 2021 VMware, Inc.
  * SPDX-License-Identifier: Apache-2.0
  */
- 
+
 package imagescanning
 
 import (
@@ -14,10 +14,10 @@ import (
 
 	"github.com/docker/distribution/reference"
 	log "github.com/sirupsen/logrus"
-	"github.com/vmware/carbon-black-cloud-container-cli/pkg/model/image"
-	"github.com/vmware/carbon-black-cloud-container-cli/pkg/scan"
 	"github.com/vmware/carbon-black-adapter-for-harbor/internal/model/harbor"
 	"github.com/vmware/carbon-black-adapter-for-harbor/internal/queue"
+	"github.com/vmware/carbon-black-cloud-container-cli/pkg/model/image"
+	"github.com/vmware/carbon-black-cloud-container-cli/pkg/scan"
 )
 
 const (
