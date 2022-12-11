@@ -35,10 +35,16 @@ func (w Worker) HandleEvents() {
 				continue
 			}
 
-			scanHandler := scan.NewScanHandler(config.SaasURL(), config.OrgKey(), config.APIID(), config.APIKey(), imageInfo.Bom, nil)
+			scanHandler := scan.NewScanHandler(config.SaasURL(), config.OrgKey(), config.APIID(), config.APIKey(), imageInfo.Bom, imageInfo.layers)
 
-			if _, err := scanHandler.PutBomAndLayersToAnalysisAPI(scan.Option{}); err != nil {
-				log.Errorf("Error putting BOM for analysis of image %v", imageInfo)
+			operationID := uuid.New().String()
+			log.WithField("operation_id", operationID).Info("Starting an operation")
+
+			imageInfo.OperationID = operationID
+
+			if _, err := scanHandler.PutBomAndLayersToAnalysisAPI(operationID, scan.Option{ForceScan: true}); err != nil {
+				log.Errorf("Error putting BOM for analysis of image %v", err)
+
 				imageInfo.Status = BomUploadedUnSuccessfully
 				continue
 			}
@@ -47,8 +53,6 @@ func (w Worker) HandleEvents() {
 		}
 	}()
 
-	registryHandler := scan.NewRegistryHandler()
-
 	for scanID := range Queue() {
 		imageInfo, ok := Fetch(scanID)
 		if !ok {
@@ -56,16 +60,20 @@ func (w Worker) HandleEvents() {
 			continue
 		}
 
-		bomGenerated, err := registryHandler.GenerateSBOM(imageInfo.DockerPullTag, scan.Option{
+		scanner := scan.NewScanner()
+
+		opts := scan.Option{
 			FullTag:    imageInfo.FullTag,
-			Credential: fmt.Sprintf("%v:%v", imageInfo.UserName, imageInfo.Password),
-		})
-		if err != nil {
-			log.Errorf("Error generating bom for the image %v: %v", imageInfo, err)
+			Credential: fmt.Sprintf("%v:%v", imageInfo.UserName, imageInfo.Password)}
+		bomGenerated, imgLayers, hasErr := scanner.ExtractDataFromImage(imageInfo.DockerPullTag, opts)
+
+		if hasErr {
+			log.Errorf("Error generating bom for the image %v:", imageInfo)
 			imageInfo.Status = BomGeneratedUnsuccessfully
 			continue
 		}
 
+		imageInfo.layers = imgLayers
 		imageInfo.Bom = bomGenerated
 		imageInfo.Digest = bomGenerated.ManifestDigest
 		imageInfo.Status = BomGeneratedSuccessfully

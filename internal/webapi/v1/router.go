@@ -91,9 +91,9 @@ func (g APIsGroup) getScanReport(c *gin.Context) {
 	case string(scan.QueuedStatus):
 		fallthrough
 	default:
-		c.Writer.Header().Set("Refresh-After", "30")
+		c.Writer.Header().Set("Refresh-After", "15")
 		c.Redirect(302, c.Request.URL.String())
-		log.Info("Scan report status is QUEUED trying after 30 seconds")
+		log.Info("Scan report status is QUEUED trying after 15 seconds")
 		c.Writer.WriteHeader(http.StatusFound)
 	}
 }

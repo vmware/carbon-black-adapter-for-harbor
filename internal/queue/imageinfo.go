@@ -6,6 +6,7 @@
 package queue
 
 import (
+	"github.com/vmware/carbon-black-cloud-container-cli/pkg/model/layers"
 	"github.com/vmware/carbon-black-cloud-container-cli/pkg/scan"
 )
 
@@ -24,6 +25,9 @@ type ImageInfo struct {
 	Digest        string
 	FullTag       string
 	Bom           *scan.Bom
+	layers        []layers.Layer
 	UserName      string
 	Password      string
+	OperationID   string
+	ImageID       string
 }

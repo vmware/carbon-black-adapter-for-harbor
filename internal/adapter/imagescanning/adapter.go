@@ -142,8 +142,8 @@ func (a Adapter) GetImageScanStatus(scanID string) (string, error) {
 		defer queue.Remove(scanID)
 		return "", fmt.Errorf("failed to generate/upload sbom to backend: %s", imageInfo.Status)
 	case queue.BomUploadedSuccessfully:
-		status, err := a.getVulnHandler.GetImageAnalysisStatus(imageInfo.Digest)
-		return string(status), err
+		status, err := a.getVulnHandler.GetImageAnalysisStatus(imageInfo.Digest, imageInfo.OperationID)
+		return string(status.OperationStatus), err
 	case queue.BomGeneratedSuccessfully:
 		fallthrough
 	default:
@@ -157,7 +157,7 @@ func (a Adapter) GetImageVulnerability(scanID string) (harbor.VulnerabilityRepor
 	digest := imageInfo.Digest
 	defer queue.Remove(scanID)
 
-	scannedResult, err := a.getVulnHandler.GetImageVulnerability(digest)
+	scannedResult, err := a.getVulnHandler.GetImageVulnerability(digest, "", "")
 	if err != nil {
 		return harbor.VulnerabilityReport{}, err
 	}
