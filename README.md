@@ -52,7 +52,7 @@ The easiest was to deploy Harbor Adapter is through the `helm install` command a
 $ helm repo add cb-harbor-adapter https://projects.registry.vmware.com/chartrepo/cb_harbor_adapter
 "cb-harbor-adapter" has been added to your repositories
 
-$ helm install carbon-black --set cb_image_scanning.api_id=,<YOUR_API_ID_HERE>,cb_image_scanning.org_key=<YOUR_ORG_KEY_HERE>,cb_image_scanning.api_key=<YOUR_API_KEY_HERE>,cb_image_scanning.url=<YOUR_URL_HERE>  cb-harbor-adapter/harbor-adapter
+$ helm install carbon-black --set cb_image_scanning.api_id=<YOUR_API_ID_HERE>,cb_image_scanning.org_key=<YOUR_ORG_KEY_HERE>,cb_image_scanning.api_key=<YOUR_API_KEY_HERE>,cb_image_scanning.url=<YOUR_URL_HERE>  cb-harbor-adapter/harbor-adapter
 NAME: carbon-black
 LAST DEPLOYED: Thu Apr 15 02:40:37 2021
 NAMESPACE: default
