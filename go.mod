@@ -7,7 +7,7 @@ require (
 	github.com/gin-gonic/gin v1.7.0
 	github.com/google/uuid v1.3.0
 	github.com/sirupsen/logrus v1.9.0
-	github.com/vmware/carbon-black-cloud-container-cli v2.7.1.2
+	github.com/vmware/carbon-black-cloud-container-cli v2.7.2
 )
 
 require (
