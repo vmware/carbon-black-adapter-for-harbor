@@ -7,6 +7,7 @@ package queue
 
 import (
 	"fmt"
+	"github.com/google/uuid"
 
 	log "github.com/sirupsen/logrus"
 	"github.com/vmware/carbon-black-adapter-for-harbor/internal/config"
