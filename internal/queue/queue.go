@@ -7,6 +7,7 @@ package queue
 
 import (
 	"github.com/google/uuid"
+	"sync"
 )
 
 var (
@@ -14,9 +15,14 @@ var (
 	queue chan string
 	// imageInfoMap will store all the information for the images about to scan
 	imageInfoMap map[string]*ImageInfo
+
+	locker sync.Mutex
 )
 
 func InitQueue(bufferSize int) {
+	locker.Lock()
+	defer locker.Unlock()
+
 	queue = make(chan string, bufferSize)
 	imageInfoMap = make(map[string]*ImageInfo)
 }
@@ -26,6 +32,9 @@ func Queue() chan string {
 }
 
 func Publish(imageInfo ImageInfo) string {
+	locker.Lock()
+	defer locker.Unlock()
+
 	scanID := uuid.New().String()
 	imageInfoMap[scanID] = &imageInfo
 	queue <- scanID
@@ -33,10 +42,16 @@ func Publish(imageInfo ImageInfo) string {
 }
 
 func Fetch(scanID string) (*ImageInfo, bool) {
+	locker.Lock()
+	defer locker.Unlock()
+
 	v, ok := imageInfoMap[scanID]
 	return v, ok
 }
 
 func Remove(scanID string) {
+	locker.Lock()
+	defer locker.Unlock()
+
 	delete(imageInfoMap, scanID)
 }
