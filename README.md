@@ -86,6 +86,60 @@ Here is the sample [values.yaml](helm/values.yaml) file
 kubectl apply -f ./k8s/cb-harbor-adapter.yaml
 ```
 
+### Local Docker image
+
+The adapter can also be run as a standalone Docker container, provided that Harbor can access its web endpoint.
+
+First, build the container by running the command below (tagging is optional, the image hash can be used instead). 
+```bash
+docker build . -t <my_repo>:<my-tag
+```
+
+Then create an env file with the required values
+```bash
+echo 'CB_API_ID=<api_id>
+CB_ORG_KEY=<org>
+CB_URL=<url>
+CB_API_KEY=<api_key>' > envfile
+```
+
+Then start the container with those values and expose the necessary 8080 port (example exposes it on the same port on the host as well). 
+```bash
+docker run --name adapter --env-file=./envfile -d -p 8080:8080/tcp harbor-adapter
+```
+
+Querying the API should produce a result now. Note that Harbor must be able to access the host if it is external. For an option where Harbor runs locally as docker containers, see [Local development](#local-development)
+```bash
+curl -s 127.0.0.1:8080/api/v1/metadata | jq
+# Output
+{
+  "scanner": {
+    "name": "Carbon-Black",
+    "vendor": "VMware",
+    "version": "1.0"
+  },
+  "capabilities": [
+    {
+      "consumes_mime_types": [
+        "application/vnd.docker.distribution.manifest.v2+json",
+        "application/vnd.docker.distribution.manifest.v2+json"
+      ],
+      "produces_mime_types": [
+        "application/vnd.scanner.adapter.vuln.report.harbor+json; version=1.0",
+        "application/vnd.security.vulnerability.report; version=1.1"
+      ]
+    }
+  ],
+  "properties": {
+    "env.LOG_LEVEL": "info",
+    "harbor.scanner-adapter/scanner-type": "os-package-vulnerability"
+  }
+}
+
+```
+
+This option is useful if one wants to run the adapter against a harbor instance that is not in Kubernetes or in development scenarios. 
+
 ## Set up Harbor Adapter in Harbor Registry
 
 1. Log in to your Harbor registry 
@@ -109,6 +163,31 @@ carbon-black-harbor-adapter            ClusterIP   10.97.54.107     <none>      
 5. After adding set the scanner as default.
 6. Now the Adapter is ready for scanning.
 
+
+## Local development
+
+This is a suggested setup to develop the adapter locally.
+
+Prerequisites:
+* Ubuntu VM with internet connectivity
+* Docker in the Ubuntu VM
+* The adapter's code in the VM
+
+First, follow the instructions from [harbor](https://goharbor.io/docs/2.0.0/install-config/quick-install-script/) to install harbor itself via Docker compose. 
+In our experience, the script from [here](https://github.com/ron7/harbor_installer) (also linked in the original gist discussion) works better. Also, using IP for the registry is recommended instead of FDQN as Docker DNS can get confused sometimes.
+Note that in some Ubuntu installations, the default user does not have `sudo` rights so make sure to add the default user to the sudoers list as the script assumes it can run sudo.
+
+The rest of the steps in the Harbor docs are unchanged.
+
+Once harbor is running locally, follow the instructions from [local docker image install](#local-docker-image) to run the adapter as an additional container. 
+
+The last step needed for this setup is to add the adapter container to harbor's network. To do so, run:
+```bash
+docker network connect harbor_harbor adapter
+```
+Once this is done, the adapter should be accessible from harbor (and vice versa) - and the integration should be available healthy in Harbor. 
+
+This allows a local development loop of "make change -> `docker build` -> start new adapter container -> validate change". 
 
 ## Contributing
 
