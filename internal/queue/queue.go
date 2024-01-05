@@ -32,11 +32,10 @@ func Queue() chan string {
 }
 
 func Publish(imageInfo ImageInfo) string {
-	locker.Lock()
-	defer locker.Unlock()
-
 	scanID := uuid.New().String()
+	locker.Lock()
 	imageInfoMap[scanID] = &imageInfo
+	locker.Unlock()
 	queue <- scanID
 	return scanID
 }
