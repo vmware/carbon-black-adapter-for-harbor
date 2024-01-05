@@ -86,12 +86,6 @@ func (a Adapter) Scan(payload harbor.ScanRequest) (harbor.ScanResponse, error) {
 		return resp, err
 	}
 
-	splits := strings.Split(payload.Artifact.Repository, "/")
-	if len(splits) != 2 {
-		err := fmt.Errorf("Expected exactly 2 substrings but found %d", len(splits))
-		return resp, err
-	}
-
 	tag := payload.Artifact.Tag
 	if payload.Artifact.Tag == "" {
 		tag = payload.Artifact.Digest[7:]
