@@ -4,3 +4,16 @@ build:
 		-tags="containers_image_openpgp exclude_graphdriver_devicemapper exclude_graphdriver_btrfs" \
 		-o=bin/harboradapter \
 		github.com/vmware/carbon-black-adapter-for-harbor/cmd/harboradapter
+
+docker-build publish check-release-var: release_version ?=
+
+check-release-var:
+ifndef release_version
+	$(error release_version is required to publish a release)
+endif
+
+docker-build:
+	docker build . -t projects.registry.vmware.com/cbcontainers/harbor_adapter:$(release_version)
+
+publish: check-release-var docker-build
+	docker push projects.registry.vmware.com/cbcontainers/harbor_adapter:$(release_version)

@@ -164,6 +164,10 @@ carbon-black-harbor-adapter            ClusterIP   10.97.54.107     <none>      
 6. Now the Adapter is ready for scanning.
 
 
+## Contributing
+
+Please follow [CONTRIBUTING.md](CONTRIBUTING.md)
+
 ## Local development
 
 This is a suggested setup to develop the adapter locally.
@@ -189,9 +193,14 @@ Once this is done, the adapter should be accessible from harbor (and vice versa)
 
 This allows a local development loop of "make change -> `docker build` -> start new adapter container -> validate change". 
 
-## Contributing
+## Creating a release
 
-Please follow [CONTRIBUTING.md](CONTRIBUTING.md)
+These steps should be followed when publishing a new release of the adapter:
+1. Run `make publish release_version=X` where X is the new version to release (e.g. 3.0). This requires access to the project's Harbor registry.
+2. Bump the chart and/or app version in [Chart.yaml](./helm/Chart.yaml)
+3. Change the default image tag under [Helm](./helm/values.yaml) and [K8S](./k8s/cb-harbor-adapter.yaml) to match the new version.
+4. Open an MR
+5. Once the MR is merged, create a new release from the merge commit. The release should match the version in step 1. 
 
 ## License
 
