@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
       - name: cb-harbor-adapter
-        image: core.harbor.domain/library/adapter #projects.registry.vmware.com/cbcontainers/harbor_adapter:2.0
+        image: projects.registry.vmware.com/cbcontainers/harbor_adapter:2.1
         env:
         - name: CB_API_ID
           valueFrom:
