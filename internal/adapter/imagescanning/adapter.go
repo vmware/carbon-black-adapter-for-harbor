@@ -34,7 +34,7 @@ var (
 	}
 	consumesMimeTypesMetadata = []string{
 		"application/vnd.docker.distribution.manifest.v2+json",
-		"application/vnd.docker.distribution.manifest.v2+json",
+		"application/vnd.oci.image.manifest.v1+json",
 	}
 	producesMimeTypesMetadata = []string{
 		"application/vnd.scanner.adapter.vuln.report.harbor+json; version=1.0",

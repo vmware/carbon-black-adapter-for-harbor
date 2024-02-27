@@ -122,7 +122,7 @@ curl -s 127.0.0.1:8080/api/v1/metadata | jq
     {
       "consumes_mime_types": [
         "application/vnd.docker.distribution.manifest.v2+json",
-        "application/vnd.docker.distribution.manifest.v2+json"
+        "application/vnd.oci.image.manifest.v1+json"
       ],
       "produces_mime_types": [
         "application/vnd.scanner.adapter.vuln.report.harbor+json; version=1.0",
