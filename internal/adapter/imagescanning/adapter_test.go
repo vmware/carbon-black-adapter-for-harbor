@@ -2,7 +2,7 @@
  * Copyright 2021 VMware, Inc.
  * SPDX-License-Identifier: Apache-2.0
  */
- package imagescanning
+package imagescanning
 
  import (
 	 "encoding/base64"
