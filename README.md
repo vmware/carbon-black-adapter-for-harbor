@@ -196,7 +196,7 @@ This allows a local development loop of "make change -> `docker build` -> start 
 ## Creating a release
 
 These steps should be followed when publishing a new release of the adapter:
-1. Run `make publish release_version=X` where X is the new version to release (e.g. 3.0). This requires access to the project's Harbor registry.
+1. Run `make publish release_version=X` where X is the new version to release (e.g. 3.0). This requires access to the project's Docker Hub account.
 2. Bump the chart and/or app version in [Chart.yaml](./helm/Chart.yaml)
 3. Change the default image tag under [Helm](./helm/values.yaml) and [K8S](./k8s/cb-harbor-adapter.yaml) to match the new version.
 4. Open an MR
