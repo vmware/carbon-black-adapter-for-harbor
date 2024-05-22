@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
       - name: cb-harbor-adapter
-        image: cbartifactory/harbor_adapter:2.1
+        image: cbartifactory/harbor_adapter:2.2
         env:
         - name: CB_API_ID
           valueFrom:

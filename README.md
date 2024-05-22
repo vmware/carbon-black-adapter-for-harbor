@@ -49,10 +49,7 @@ All configuration values for the Harbor Adapter can be set using the following e
 The easiest was to deploy Harbor Adapter is through the `helm install` command and make sure you provide all the necessary arguments as mentioned below:
 
 ```
-$ helm repo add cb-harbor-adapter https://projects.registry.vmware.com/chartrepo/cb_harbor_adapter
-"cb-harbor-adapter" has been added to your repositories
-
-$ helm install carbon-black --set cb_image_scanning.api_id=,<YOUR_API_ID_HERE>,cb_image_scanning.org_key=<YOUR_ORG_KEY_HERE>,cb_image_scanning.api_key=<YOUR_API_KEY_HERE>,cb_image_scanning.url=<YOUR_URL_HERE>  cb-harbor-adapter/harbor-adapter
+$ helm install carbon-black --set cb_image_scanning.api_id=,<YOUR_API_ID_HERE>,cb_image_scanning.org_key=<YOUR_ORG_KEY_HERE>,cb_image_scanning.api_key=<YOUR_API_KEY_HERE>,cb_image_scanning.url=<YOUR_URL_HERE> oci://registry-1.docker.io/cbartifactory/cb-harbor-adapter
 NAME: carbon-black
 LAST DEPLOYED: Thu Apr 15 02:40:37 2021
 NAMESPACE: default
@@ -69,13 +66,12 @@ You can also provide the configuration through values file and make sure you pro
 * cb_image_scanning.url
 
 ```
-$ helm repo add cb-harbor-adapter https://projects.registry.vmware.com/chartrepo/cb_harbor_adapter
-"cb-harbor-adapter" has been added to your repositories
-
-$ helm install carbon-black -f values.yaml cb-harbor-adapter/harbor-adapter
+$ helm install carbon-black -f values.yaml oci://registry-1.docker.io/cbartifactory/cb-harbor-adapter
 ```
 
 Here is the sample [values.yaml](helm/values.yaml) file
+
+NOTE: The old repository at [projects.registry.vmware.com](https://projects.registry.vmware.com/chartrepo/cb_harbor_adapter) is now deprecated and will not be updated with new releases. Thus, you may need to run `helm uninstall` and then `helm install` to get the latest release, if you are using the old repository.
 
 ### kubectl apply
 
