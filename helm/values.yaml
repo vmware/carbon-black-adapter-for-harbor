@@ -2,7 +2,7 @@ fullnameOverride:
 replicaCount: 1
 
 image:
-  image: projects.registry.vmware.com/cbcontainers/harbor_adapter:2.1
+  image: cbartifactory/harbor_adapter:2.1
   imagePullPolicy: IfNotPresent
 
 cb_image_scanning:

@@ -13,7 +13,7 @@ ifndef release_version
 endif
 
 docker-build:
-	docker build . -t projects.registry.vmware.com/cbcontainers/harbor_adapter:$(release_version)
+	docker build . -t cbartifactory/harbor_adapter:$(release_version)
 
 publish: check-release-var docker-build
-	docker push projects.registry.vmware.com/cbcontainers/harbor_adapter:$(release_version)
+	docker push cbartifactory/harbor_adapter:$(release_version)
