@@ -2,7 +2,7 @@ fullnameOverride:
 replicaCount: 1
 
 image:
-  image: cbartifactory/harbor_adapter:2.1
+  image: cbartifactory/harbor_adapter:2.2
   imagePullPolicy: IfNotPresent
 
 cb_image_scanning:
